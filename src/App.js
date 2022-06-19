@@ -6,7 +6,19 @@ import './scss/app.scss';
 
 import pizzas from './assets/pizzas.json';
 
+import React from 'react';
+
 function App() {
+  const getPizzas = () => {
+    fetch('/api/pizzas.json')
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  };
+
+  React.useEffect(() => {
+    getPizzas();
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
