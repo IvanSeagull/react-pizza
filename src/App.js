@@ -1,42 +1,25 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import Categories from './components/Categories';
 import Header from './components/Header';
-import PizzaBlock from './components/PizzaBlock';
-import Skeleton from './components/PizzaBlock/Skeleton';
-import Sort from './components/Sort';
+import Cart from './pages/Cart';
+
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
 import './scss/app.scss';
 
 function App() {
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  const getPizzas = () => {
-    fetch('/api/pizzas.json')
-      .then((res) => res.json())
-      .then((data) => setItems(data))
-      .finally(() => setIsLoading(false));
-  };
-
-  React.useEffect(() => {
-    getPizzas();
-  }, []);
-
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
         <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            {isLoading
-              ? new Array(10).fill(0).map((_, index) => <Skeleton key={index} />)
-              : items?.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
       </div>
     </div>
