@@ -15,6 +15,7 @@ const Home = () => {
   // sort
   const [selectedOption, setSelectedOption] = React.useState(0);
 
+  // pages
   const [currentPage, setCurrentPage] = React.useState({ selected: 0 });
   const [totalPages, setTotalPages] = React.useState(1);
 
