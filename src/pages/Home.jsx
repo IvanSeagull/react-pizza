@@ -1,4 +1,5 @@
 import React from 'react';
+import { AppContext } from '../App';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
@@ -16,6 +17,8 @@ const Home = () => {
 
   const [currentPage, setCurrentPage] = React.useState({ selected: 0 });
   const [totalPages, setTotalPages] = React.useState(1);
+
+  const { searchValue } = React.useContext(AppContext);
 
   const getPizzas = () => {
     setIsLoading(true);
@@ -54,13 +57,13 @@ const Home = () => {
         break;
     }
 
-    return items.filter((obj) => obj.title.toLowerCase().includes(''.toLocaleLowerCase()));
+    return items.filter((obj) => obj.title.toLowerCase().includes(searchValue.toLocaleLowerCase()));
   };
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
     getPizzas();
-  }, [activeIndex, selectedOption, currentPage]);
+  }, [activeIndex, selectedOption, currentPage, searchValue]);
 
   return (
     <div className="container">
