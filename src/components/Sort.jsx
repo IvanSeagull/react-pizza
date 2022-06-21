@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sort = () => {
+const Sort = ({ value, setValue }) => {
   const sortOptions = [
     'Popularity',
     'Name',
@@ -10,7 +10,6 @@ const Sort = () => {
     'Rating: low to high',
   ];
   const [isPopup, setIsPopup] = React.useState(false);
-  const [selectedOption, setSelectedOption] = React.useState(0);
   return (
     <div className="sort">
       <div className="sort__label">
@@ -26,7 +25,7 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsPopup((prev) => !prev)}>{sortOptions[selectedOption]}</span>
+        <span onClick={() => setIsPopup((prev) => !prev)}>{sortOptions[value]}</span>
       </div>
       {isPopup && (
         <div className="sort__popup">
@@ -34,10 +33,10 @@ const Sort = () => {
             {sortOptions?.map((option, index) => (
               <li
                 onClick={() => {
-                  setSelectedOption(index);
+                  setValue(index);
                   setIsPopup(false);
                 }}
-                className={index === selectedOption ? 'active' : ''}
+                className={index === value ? 'active' : ''}
                 key={index}>
                 {option}
               </li>
