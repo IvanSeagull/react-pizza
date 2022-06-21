@@ -47,7 +47,7 @@ const Home = () => {
         break;
     }
 
-    return items;
+    return items.filter((obj) => obj.title.toLowerCase().includes(''.toLocaleLowerCase()));
   };
 
   React.useEffect(() => {
