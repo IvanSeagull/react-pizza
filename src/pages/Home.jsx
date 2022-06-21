@@ -1,5 +1,6 @@
 import React from 'react';
 import Categories from '../components/Categories';
+import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
@@ -13,12 +14,18 @@ const Home = () => {
   // sort
   const [selectedOption, setSelectedOption] = React.useState(0);
 
+  const [currentPage, setCurrentPage] = React.useState({ selected: 0 });
+  const [totalPages, setTotalPages] = React.useState(1);
+
   const getPizzas = () => {
     setIsLoading(true);
     fetch('/api/pizzas.json')
       .then((res) => res.json())
       .then((data) => filterPizzas(data))
-      .then((data) => setItems(data))
+      .then((data) => {
+        setTotalPages(Math.ceil(data.length / 4));
+        setItems(data.slice(4 * currentPage.selected, 4 * (currentPage.selected + 1)));
+      })
       .finally(() => setIsLoading(false));
   };
 
@@ -53,7 +60,7 @@ const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     getPizzas();
-  }, [activeIndex, selectedOption]);
+  }, [activeIndex, selectedOption, currentPage]);
 
   return (
     <div className="container">
@@ -67,6 +74,8 @@ const Home = () => {
           ? new Array(10).fill(0).map((_, index) => <Skeleton key={index} />)
           : items?.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
       </div>
+
+      <Pagination totalPages={totalPages} setValue={setCurrentPage} />
     </div>
   );
 };
