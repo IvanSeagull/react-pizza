@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import { useSelector } from 'react-redux';
 import { AppContext } from '../App';
@@ -23,8 +24,9 @@ const Home = () => {
 
   const getPizzas = () => {
     setIsLoading(true);
-    fetch('/api/pizzas.json')
-      .then((res) => res.json())
+    axios
+      .get('/api/pizzas.json')
+      .then((res) => res.data)
       .then((data) => filterPizzas(data))
       .then((data) => {
         setTotalPages(Math.ceil(data.length / 4));
