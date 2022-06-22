@@ -1,17 +1,22 @@
 import React from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
 import { AppContext } from '../App';
+
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
+import { setCategoryId } from '../redux/slices/filterSlice';
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const categoryId = useSelector((state) => state.filter.categoryId);
+
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  // categories
-  const [activeIndex, setActiveIndex] = React.useState(0);
   // sort
   const [selectedOption, setSelectedOption] = React.useState(0);
 
@@ -20,6 +25,10 @@ const Home = () => {
   const [totalPages, setTotalPages] = React.useState(1);
 
   const { searchValue } = React.useContext(AppContext);
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
 
   const getPizzas = () => {
     setIsLoading(true);
@@ -35,8 +44,8 @@ const Home = () => {
 
   // filter pizzas (cuz I dont have proper api for this, IM STORING PIZZAS ON JSON)
   const filterPizzas = (items) => {
-    if (activeIndex !== 0) {
-      items = items.filter((pizza) => pizza.category === activeIndex);
+    if (categoryId !== 0) {
+      items = items.filter((pizza) => pizza.category === categoryId);
     }
     switch (selectedOption) {
       case 1:
@@ -64,12 +73,12 @@ const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     getPizzas();
-  }, [activeIndex, selectedOption, currentPage, searchValue]);
+  }, [categoryId, selectedOption, currentPage, searchValue]);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={activeIndex} setValue={(index) => setActiveIndex(index)} />
+        <Categories value={categoryId} setValue={(index) => onChangeCategory(index)} />
         <Sort value={selectedOption} setValue={(index) => setSelectedOption(index)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
