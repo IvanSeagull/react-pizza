@@ -5,6 +5,9 @@ import { setSortId } from '../redux/slices/filterSlice';
 const Sort = () => {
   const dispatch = useDispatch();
   const sortId = useSelector((state) => state.filter.sortId);
+  const [isPopup, setIsPopup] = React.useState(false);
+
+  const sortRef = React.useRef();
 
   const sortOptions = [
     'Popularity',
@@ -15,9 +18,19 @@ const Sort = () => {
     'Rating: low to high',
   ];
 
-  const [isPopup, setIsPopup] = React.useState(false);
+  React.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.path.includes(sortRef.current)) {
+        setIsPopup(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
