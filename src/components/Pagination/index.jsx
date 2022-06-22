@@ -5,18 +5,18 @@ import { setCurrentPage } from '../../redux/slices/filterSlice';
 
 import styles from './Pagination.module.scss';
 
-const Pagination = ({ totalPages }) => {
-  const dispatch = useDispatch();
+const Pagination = ({ totalPages, setValue, currentPage }) => {
   return (
     <ReactPaginate
       className={styles.root}
       breakLabel="..."
       nextLabel=">"
       previousLabel="<"
-      onPageChange={(e) => dispatch(setCurrentPage(e))}
+      onPageChange={(e) => setValue(e)}
       pageRangeDisplayed={5}
       pageCount={totalPages}
       renderOnZeroPageCount={null}
+      forcePage={currentPage.selected}
     />
   );
 };

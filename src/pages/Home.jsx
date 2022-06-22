@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppContext } from '../App';
 
 import Categories from '../components/Categories';
@@ -9,16 +9,18 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
+import { setCurrentPage } from '../redux/slices/filterSlice';
 
 const Home = () => {
+  const dispatch = useDispatch();
+
   const { categoryId, sortId, currentPage } = useSelector((state) => state.filter);
+  const { searchValue } = React.useContext(AppContext);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const [totalPages, setTotalPages] = React.useState(1);
-
-  const { searchValue } = React.useContext(AppContext);
 
   const getPizzas = () => {
     setIsLoading(true);
@@ -66,6 +68,10 @@ const Home = () => {
     getPizzas();
   }, [categoryId, sortId, currentPage, searchValue]);
 
+  React.useEffect(() => {
+    dispatch(setCurrentPage({ selected: 0 }));
+  }, [categoryId, sortId, searchValue]);
+
   return (
     <div className="container">
       <div className="content__top">
@@ -79,7 +85,11 @@ const Home = () => {
           : items?.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
       </div>
 
-      <Pagination totalPages={totalPages} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setValue={(e) => dispatch(setCurrentPage(e))}
+      />
     </div>
   );
 };
