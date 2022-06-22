@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppContext } from '../App';
 
 import Categories from '../components/Categories';
@@ -8,27 +8,18 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
-import { setCategoryId } from '../redux/slices/filterSlice';
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const categoryId = useSelector((state) => state.filter.categoryId);
+  const { categoryId, sortId } = useSelector((state) => state.filter);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
-  // sort
-  const [selectedOption, setSelectedOption] = React.useState(0);
 
   // pages
   const [currentPage, setCurrentPage] = React.useState({ selected: 0 });
   const [totalPages, setTotalPages] = React.useState(1);
 
   const { searchValue } = React.useContext(AppContext);
-
-  const onChangeCategory = (id) => {
-    dispatch(setCategoryId(id));
-  };
 
   const getPizzas = () => {
     setIsLoading(true);
@@ -47,7 +38,7 @@ const Home = () => {
     if (categoryId !== 0) {
       items = items.filter((pizza) => pizza.category === categoryId);
     }
-    switch (selectedOption) {
+    switch (sortId) {
       case 1:
         items = items.sort((a, b) => (a.name > b.name ? 1 : -1));
         break;
@@ -73,18 +64,18 @@ const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     getPizzas();
-  }, [categoryId, selectedOption, currentPage, searchValue]);
+  }, [categoryId, sortId, currentPage, searchValue]);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} setValue={(index) => onChangeCategory(index)} />
-        <Sort value={selectedOption} setValue={(index) => setSelectedOption(index)} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoading
-          ? new Array(10).fill(0).map((_, index) => <Skeleton key={index} />)
+          ? new Array(4).fill(0).map((_, index) => <Skeleton key={index} />)
           : items?.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
       </div>
 

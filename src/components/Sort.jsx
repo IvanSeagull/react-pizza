@@ -1,6 +1,11 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSortId } from '../redux/slices/filterSlice';
 
-const Sort = ({ value, setValue }) => {
+const Sort = () => {
+  const dispatch = useDispatch();
+  const sortId = useSelector((state) => state.filter.sortId);
+
   const sortOptions = [
     'Popularity',
     'Name',
@@ -9,6 +14,7 @@ const Sort = ({ value, setValue }) => {
     'Rating: high to low',
     'Rating: low to high',
   ];
+
   const [isPopup, setIsPopup] = React.useState(false);
   return (
     <div className="sort">
@@ -25,7 +31,7 @@ const Sort = ({ value, setValue }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsPopup((prev) => !prev)}>{sortOptions[value]}</span>
+        <span onClick={() => setIsPopup((prev) => !prev)}>{sortOptions[sortId]}</span>
       </div>
       {isPopup && (
         <div className="sort__popup">
@@ -33,10 +39,10 @@ const Sort = ({ value, setValue }) => {
             {sortOptions?.map((option, index) => (
               <li
                 onClick={() => {
-                  setValue(index);
+                  dispatch(setSortId(index));
                   setIsPopup(false);
                 }}
-                className={index === value ? 'active' : ''}
+                className={index === sortId ? 'active' : ''}
                 key={index}>
                 {option}
               </li>
