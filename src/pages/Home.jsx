@@ -11,13 +11,11 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 
 const Home = () => {
-  const { categoryId, sortId } = useSelector((state) => state.filter);
+  const { categoryId, sortId, currentPage } = useSelector((state) => state.filter);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  // pages
-  const [currentPage, setCurrentPage] = React.useState({ selected: 0 });
   const [totalPages, setTotalPages] = React.useState(1);
 
   const { searchValue } = React.useContext(AppContext);
@@ -81,7 +79,7 @@ const Home = () => {
           : items?.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
       </div>
 
-      <Pagination totalPages={totalPages} setValue={setCurrentPage} />
+      <Pagination totalPages={totalPages} />
     </div>
   );
 };
