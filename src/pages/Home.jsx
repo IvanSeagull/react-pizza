@@ -12,15 +12,17 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import { useNavigate } from 'react-router-dom';
+import { setItems } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const navigation = useNavigate();
   const dispatch = useDispatch();
 
   const { categoryId, sortId, currentPage } = useSelector((state) => state.filter);
+  const { items } = useSelector((state) => state.pizza);
+
   const { searchValue } = React.useContext(AppContext);
 
-  const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const [totalPages, setTotalPages] = React.useState(1);
@@ -33,9 +35,10 @@ const Home = () => {
       .then((data) => filterPizzas(data))
       .then((data) => {
         setTotalPages(Math.ceil(data.length / 4));
-        setItems(data.slice(4 * currentPage.selected, 4 * (currentPage.selected + 1)));
+        dispatch(setItems(data.slice(4 * currentPage.selected, 4 * (currentPage.selected + 1))));
       })
       .finally(() => setIsLoading(false));
+    // .catch((error) => setIsLoading(false));
   };
 
   // filter pizzas (cuz I dont have proper api for this, IM STORING PIZZAS ON JSON)
