@@ -4,8 +4,8 @@ import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { setItems, fetchPizzas } from '../redux/slices/pizzaSlice';
+import { selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { setItems, fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
 
 import { AppContext } from '../App';
 import Categories from '../components/Categories';
@@ -18,10 +18,8 @@ const Home = () => {
   const navigation = useNavigate();
   const dispatch = useDispatch();
 
-  const { categoryId, sortId, currentPage } = useSelector((state) => state.filter);
-  const { items, status } = useSelector((state) => state.pizza);
-
-  const { searchValue } = React.useContext(AppContext);
+  const { categoryId, sortId, currentPage, searchValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizza);
 
   const [totalPages, setTotalPages] = React.useState(1);
 
