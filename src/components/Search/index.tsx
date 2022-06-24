@@ -8,7 +8,7 @@ import { setSearchValue } from '../../redux/slices/filterSlice';
 const Search = () => {
   const dispatch = useDispatch();
 
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState<string>('');
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const updateSearchValue = React.useCallback(

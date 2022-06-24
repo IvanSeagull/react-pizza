@@ -13,7 +13,7 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigation = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,6 +24,7 @@ const Home = () => {
 
   const getPizzas = () => {
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         categoryId,
         sortId,
@@ -78,7 +79,7 @@ const Home = () => {
         ) : status === 'loading' ? (
           new Array(4).fill(0).map((_, index) => <Skeleton key={index} />)
         ) : (
-          items?.map((obj) => (
+          items?.map((obj: any) => (
             <Link to={`/pizza/${obj.id}`} key={obj.id}>
               <PizzaBlock {...obj} />
             </Link>
@@ -89,7 +90,7 @@ const Home = () => {
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        setValue={(e) => dispatch(setCurrentPage(e))}
+        setValue={(e: any) => dispatch(setCurrentPage(e))}
       />
     </div>
   );
