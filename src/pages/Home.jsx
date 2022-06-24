@@ -1,13 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import { setItems, fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
 
-import { AppContext } from '../App';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
@@ -79,7 +78,11 @@ const Home = () => {
         ) : status === 'loading' ? (
           new Array(4).fill(0).map((_, index) => <Skeleton key={index} />)
         ) : (
-          items?.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+          items?.map((obj) => (
+            <Link to={`/pizza/${obj.id}`} key={obj.id}>
+              <PizzaBlock {...obj} />
+            </Link>
+          ))
         )}
       </div>
 
