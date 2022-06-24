@@ -2,12 +2,16 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSort, setSortId } from '../redux/slices/filterSlice';
 
+type SortItem = {
+  name: String;
+};
+
 const Sort = () => {
   const dispatch = useDispatch();
   const sortId = useSelector(selectSort);
   const [isPopup, setIsPopup] = React.useState(false);
 
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const sortOptions = [
     'Popularity',
@@ -19,7 +23,7 @@ const Sort = () => {
   ];
 
   React.useEffect(() => {
-    const handleClickOutside = (e) => {
+    const handleClickOutside = (e: any) => {
       if (!e.path.includes(sortRef.current)) {
         setIsPopup(false);
       }

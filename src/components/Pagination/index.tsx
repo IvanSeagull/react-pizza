@@ -5,7 +5,9 @@ import { setCurrentPage } from '../../redux/slices/filterSlice';
 
 import styles from './Pagination.module.scss';
 
-const Pagination = ({ totalPages, setValue, currentPage }) => {
+type PaginationProps = { totalPages: number; setValue: any; currentPage: any };
+
+const Pagination: React.FC<PaginationProps> = ({ totalPages, setValue, currentPage }) => {
   return (
     <ReactPaginate
       className={styles.root}
@@ -15,7 +17,6 @@ const Pagination = ({ totalPages, setValue, currentPage }) => {
       onPageChange={(e) => setValue(e)}
       pageRangeDisplayed={5}
       pageCount={totalPages}
-      renderOnZeroPageCount={null}
       forcePage={currentPage.selected}
     />
   );
