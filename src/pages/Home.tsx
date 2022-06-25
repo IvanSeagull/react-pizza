@@ -4,7 +4,12 @@ import qs from 'qs';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import {
+  FilterSliceState,
+  selectFilter,
+  setCurrentPage,
+  setFilters,
+} from '../redux/slices/filterSlice';
 import { setItems, fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
 
 import Categories from '../components/Categories';
@@ -12,10 +17,11 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
+import { useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigation = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { categoryId, sortId, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizza);
@@ -24,7 +30,6 @@ const Home: React.FC = () => {
 
   const getPizzas = () => {
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         categoryId,
         sortId,
@@ -52,14 +57,15 @@ const Home: React.FC = () => {
   const setQueryString = () => {
     return qs.stringify({
       categoryId,
-      sortProperty: sortId,
+      sortId: sortId,
       currentPage: currentPage.selected,
     });
   };
 
   const getQueryString = () => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(window.location.search.substring(1)) as unknown as FilterSliceState;
+      console.log(params);
       dispatch(setFilters(params));
     }
   };
@@ -79,11 +85,7 @@ const Home: React.FC = () => {
         ) : status === 'loading' ? (
           new Array(4).fill(0).map((_, index) => <Skeleton key={index} />)
         ) : (
-          items?.map((obj: any) => (
-            <Link to={`/pizza/${obj.id}`} key={obj.id}>
-              <PizzaBlock {...obj} />
-            </Link>
-          ))
+          items?.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />)
         )}
       </div>
 
