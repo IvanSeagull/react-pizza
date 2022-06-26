@@ -29,8 +29,8 @@ const Header: React.FC = React.memo(() => {
           <div className="header__logo">
             <img width="38" src={logoSvg} alt="Pizza logo" />
             <div>
-              <h1>React Pizza</h1>
-              <p>самая вкусная пицца во вселенной</p>
+              <h1>Seagull Pizza</h1>
+              <p>the most delicious pizza in the universe</p>
             </div>
           </div>
         </Link>
