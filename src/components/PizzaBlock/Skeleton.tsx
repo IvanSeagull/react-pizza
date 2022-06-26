@@ -5,7 +5,6 @@ export const Skeleton: React.FC = () => (
   <ContentLoader
     className="pizza-block"
     speed={2}
-    // width={280}
     height={460}
     viewBox="0 0 280 460"
     backgroundColor="#f3f3f3"
