@@ -11,7 +11,7 @@ type PaginationProps = {
   };
 };
 
-const Pagination: React.FC<PaginationProps> = ({ totalPages, setValue, currentPage }) => (
+export const Pagination: React.FC<PaginationProps> = ({ totalPages, setValue, currentPage }) => (
   <ReactPaginate
     className={styles.root}
     breakLabel="..."
@@ -23,5 +23,3 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, setValue, currentPa
     forcePage={currentPage.selected}
   />
 );
-
-export default Pagination;
