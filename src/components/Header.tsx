@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Search from './Search';
 
 import logoSvg from '../assets/img/pizza-logo.svg';
-import { selectCart } from '../redux/slices/cartSlice';
+import { selectCart } from '../redux/cart/selectors';
 
 const Header: React.FC = React.memo(() => {
   const { items, totalPrice } = useSelector(selectCart);
