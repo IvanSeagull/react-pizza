@@ -1,8 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import qs from 'qs';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import {
   FilterSliceState,
@@ -10,7 +9,7 @@ import {
   setCurrentPage,
   setFilters,
 } from '../redux/slices/filterSlice';
-import { setItems, fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
+import { fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
 
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
