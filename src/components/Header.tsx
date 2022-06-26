@@ -10,8 +10,17 @@ import { selectCart } from '../redux/slices/cartSlice';
 const Header: React.FC = React.memo(() => {
   const { items, totalPrice } = useSelector(selectCart);
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
+  const isMounted = React.useRef(false);
 
   const location = useLocation();
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem('cart', json);
+    }
+    isMounted.current = true;
+  }, [totalPrice]);
 
   return (
     <div className="header">
