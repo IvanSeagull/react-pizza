@@ -22,7 +22,7 @@ const Home: React.FC = () => {
   const { items, status } = useSelector(selectPizza);
 
   const [totalPages, setTotalPages] = React.useState(1);
-  const [renderedPizzas, setRenderedPizzas] = React.useState('4');
+  const [renderedPizzas, setRenderedPizzas] = React.useState('All');
 
   const getPizzas = () => {
     dispatch(

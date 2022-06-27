@@ -12,6 +12,8 @@
     width: 120px;
     padding: 10px 0;
     overflow: hidden;
+    animation-name: popup;
+    animation-duration: 0.2s;
 
     ul {
       overflow: hidden;
@@ -30,5 +32,16 @@
         }
       }
     }
+  }
+}
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    margin-top: -40px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 15px;
   }
 }
