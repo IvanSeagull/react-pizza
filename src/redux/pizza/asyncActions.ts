@@ -4,12 +4,10 @@ import { FetchPizzasArgs, Pizza } from './types';
 
 export const fetchPizzas = createAsyncThunk<Pizza[], FetchPizzasArgs>(
   'pizza/fetchPizzas',
-  async ({ categoryId, sortId, currentPage, searchValue, setTotalPages }) => {
+  async ({ categoryId, sortId, currentPage, searchValue }) => {
     const { data } = await axios.get<Pizza[]>('/api/pizzas.json');
-    setTotalPages(Math.ceil(data.length / 4));
 
-    const res = filterPizzas(data, categoryId, sortId, searchValue);
-    return res.slice(4 * currentPage.selected, 4 * (currentPage.selected + 1));
+    return filterPizzas(data, categoryId, sortId, searchValue);
   },
 );
 

@@ -1,34 +1,25 @@
 import clsx from 'clsx';
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { selectSort } from '../redux/filter/selectors';
-import { setSortId } from '../redux/filter/slice';
+import styles from './PizzasAmount.module.scss';
 
 type PopupClick = MouseEvent & {
   path: Node[];
 };
 
-export const Sort: React.FC = React.memo(() => {
-  const dispatch = useDispatch();
-  const sortId = useSelector(selectSort);
+type PizzaAmountProps = {
+  value: string;
+  setValue: any;
+};
+
+const PizzasAmount: React.FC<PizzaAmountProps> = ({ value, setValue }) => {
+  const showOptions = ['All', '4', '8', '16', '20'];
   const [isPopup, setIsPopup] = React.useState<boolean>(false);
-
-  const sortRef = React.useRef<HTMLDivElement>(null);
-
-  const sortOptions = [
-    'Popularity',
-    'Name',
-    'Price: low to high',
-    'Price: high to low',
-    'Rating: high to low',
-    'Rating: low to high',
-  ];
-
+  const amountRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const _event = e as PopupClick;
-      if (sortRef.current && !_event.path.includes(sortRef.current)) {
+      if (amountRef.current && !_event.path.includes(amountRef.current)) {
         setIsPopup(false);
       }
     };
@@ -38,7 +29,7 @@ export const Sort: React.FC = React.memo(() => {
   }, []);
 
   return (
-    <div ref={sortRef} className="sort">
+    <div ref={amountRef} className={styles.root}>
       <div className="sort__label">
         <svg
           className={clsx({ active: isPopup })}
@@ -52,19 +43,19 @@ export const Sort: React.FC = React.memo(() => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
-        <span onClick={() => setIsPopup((prev) => !prev)}>{sortOptions[sortId]}</span>
+        <b>Show:</b>
+        <span onClick={() => setIsPopup((prev) => !prev)}>{value}</span>
       </div>
       {isPopup && (
-        <div className="sort__popup">
+        <div className={styles.popup}>
           <ul>
-            {sortOptions?.map((option, index) => (
+            {showOptions?.map((option, index) => (
               <li
+                className={value === showOptions[index] ? styles.active : ''}
                 onClick={() => {
-                  dispatch(setSortId(index));
+                  setValue(option);
                   setIsPopup(false);
                 }}
-                className={index === sortId ? 'active' : ''}
                 key={index}>
                 {option}
               </li>
@@ -74,4 +65,6 @@ export const Sort: React.FC = React.memo(() => {
       )}
     </div>
   );
-});
+};
+
+export default PizzasAmount;

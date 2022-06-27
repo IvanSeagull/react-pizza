@@ -16,7 +16,6 @@ export type FetchPizzasArgs = {
   sortId: number;
   currentPage: currentPageType;
   searchValue: string;
-  setTotalPages: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export enum Status {

@@ -12,6 +12,7 @@ import { selectPizza } from '../redux/pizza/selectors';
 import { setCurrentPage, setFilters } from '../redux/filter/slice';
 import { FilterSliceState } from '../redux/filter/types';
 import { fetchPizzas } from '../redux/pizza/asyncActions';
+import PizzasAmount from '../components/PizzasAmount';
 
 const Home: React.FC = () => {
   const navigation = useNavigate();
@@ -21,6 +22,7 @@ const Home: React.FC = () => {
   const { items, status } = useSelector(selectPizza);
 
   const [totalPages, setTotalPages] = React.useState(1);
+  const [renderedPizzas, setRenderedPizzas] = React.useState('4');
 
   const getPizzas = () => {
     dispatch(
@@ -29,7 +31,6 @@ const Home: React.FC = () => {
         sortId,
         currentPage,
         searchValue,
-        setTotalPages,
       }),
     );
   };
@@ -45,8 +46,16 @@ const Home: React.FC = () => {
   }, [categoryId, sortId, currentPage, searchValue]);
 
   React.useEffect(() => {
+    if (renderedPizzas !== 'All') {
+      setTotalPages(Math.ceil(items.length / Number(renderedPizzas)));
+    } else {
+      setTotalPages(1);
+    }
+  }, [items, renderedPizzas]);
+
+  React.useEffect(() => {
     dispatch(setCurrentPage({ selected: 0 }));
-  }, [categoryId, sortId, searchValue]);
+  }, [categoryId, sortId, searchValue, renderedPizzas]);
 
   const setQueryString = () => {
     return qs.stringify({
@@ -71,6 +80,7 @@ const Home: React.FC = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
+      <PizzasAmount value={renderedPizzas} setValue={setRenderedPizzas} />
       <div className="content__items">
         {status === 'error' ? (
           <div style={{ marginBottom: 50 }}>
@@ -78,16 +88,24 @@ const Home: React.FC = () => {
           </div>
         ) : status === 'loading' ? (
           new Array(4).fill(0).map((_, index) => <Skeleton key={index} />)
+        ) : renderedPizzas !== 'All' ? (
+          items
+            ?.slice(
+              Number(renderedPizzas) * currentPage.selected,
+              Number(renderedPizzas) * (currentPage.selected + 1),
+            )
+            .map((obj: any) => <PizzaBlock key={obj.id} {...obj} />)
         ) : (
-          items?.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />)
+          items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />)
         )}
       </div>
-
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        setValue={(e: any) => dispatch(setCurrentPage(e))}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setValue={(e: any) => dispatch(setCurrentPage(e))}
+        />
+      )}
     </div>
   );
 };
