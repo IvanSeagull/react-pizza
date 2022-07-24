@@ -15,6 +15,8 @@ import { fetchPizzas } from '../redux/pizza/asyncActions';
 import PizzasAmount from '../components/PizzasAmount';
 
 const Home: React.FC = () => {
+  const categories = ['All', 'Meat', 'Vegetarian', 'Grill', 'Spicy'];
+
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -79,7 +81,7 @@ const Home: React.FC = () => {
         <Categories />
         <Sort />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <h2 className="content__title">{categories[categoryId]} pizzas</h2>
       <PizzasAmount value={renderedPizzas} setValue={setRenderedPizzas} />
       <div className="content__items">
         {status === 'error' ? (

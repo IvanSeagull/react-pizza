@@ -37,11 +37,11 @@ const FullPizza: React.FC = () => {
     <div className="container">
       <Link to="/">
         <button className="button button--outline button--add">
-          <span>Назад</span>
+          <span>Home</span>
         </button>
       </Link>
       <h2>{pizza?.title}</h2>
-      <h4>{pizza?.price} ₽</h4>
+      <h4>{pizza?.price} $</h4>
       <img src={pizza?.imageUrl} />
     </div>
   );

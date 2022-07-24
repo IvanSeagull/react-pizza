@@ -27,7 +27,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
 
   const addedCount = cartItem ? cartItem.count : 0;
 
-  const typeNames = ['тонкое', 'традиционное'];
+  const typeNames = ['Thin', 'Traditional'];
   const [activeSizeIndex, setActiveSizeIndex] = React.useState<number>(0);
   const [activeTypeIndex, setActiveTypeIndex] = React.useState<number>(0);
 
@@ -70,13 +70,13 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
                 onClick={() => setActiveSizeIndex(index)}
                 className={activeSizeIndex === index ? 'active' : ''}
                 key={index}>
-                {size} см.
+                {size} sm.
               </li>
             ))}
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {price} ₽</div>
+          <div className="pizza-block__price">from ${price}</div>
           <button onClick={() => onClickAdd()} className="button button--outline button--add">
             <svg
               width="12"
@@ -89,7 +89,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
                 fill="white"
               />
             </svg>
-            <span>Добавить</span>
+            <span> Add</span>
             {addedCount > 0 && <i>{addedCount}</i>}
           </button>
         </div>

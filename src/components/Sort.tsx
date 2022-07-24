@@ -52,7 +52,7 @@ export const Sort: React.FC = React.memo(() => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
+        <b>Sort By:</b>
         <span onClick={() => setIsPopup((prev) => !prev)}>{sortOptions[sortId]}</span>
       </div>
       {isPopup && (

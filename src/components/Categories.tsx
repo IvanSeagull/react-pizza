@@ -8,7 +8,7 @@ export const Categories: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const categoryId = useSelector(selectCategory);
 
-  const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+  const categories = ['All', 'Meat', 'Vegetarian', 'Grill', 'Spicy'];
 
   return (
     <div className="categories">
