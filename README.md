@@ -1,5 +1,7 @@
 # 🍕 Pizza Shop
 
+## [Hosted here](https://react-pizza-ivanseagull.vercel.app)
+
 ## A small pet project in which I made a prototype of a pizza store with a menu and a basket
 
 # 🛠 Stack:
