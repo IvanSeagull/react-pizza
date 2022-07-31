@@ -108,7 +108,7 @@ const Cart: React.FC = () => {
             </span>
             <span>
               {' '}
-              Total sum: <b>${totalPrice}</b>{' '}
+              Total sum: <b>${totalPrice.toFixed(2)}</b>{' '}
             </span>
           </div>
           <div className="cart__bottom-buttons">
